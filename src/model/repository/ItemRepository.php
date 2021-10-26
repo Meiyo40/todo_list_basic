@@ -75,5 +75,7 @@ class ItemRepository implements iDatabaseImpl
                 return $item;
             } 
         } 
+        return null;
+
     }
 }
