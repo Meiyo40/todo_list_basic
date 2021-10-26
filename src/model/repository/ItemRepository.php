@@ -4,6 +4,8 @@ namespace app\model\repository;
 
 require_once ("iDatabaseImpl.php");
 require_once (__DIR__."/../entity/Item.php");
+require_once (__DIR__."/../database/ConfigurationDatabase.php");
+require_once (__DIR__."/../database/MySQLDatabase.php");
 
 use app\model\database\ConfigurationDatabase;
 use app\model\database\MySQLDatabase;
@@ -24,7 +26,7 @@ class ItemRepository implements iDatabaseImpl
             'mysql:host=localhost;dbname=simple_todo_list'
         );
         MySQLDatabase::setConfigration($this->databaseConfiguration);
-        $this->database= MySQLDatabase::connect();
+        //$this->database= MySQLDatabase::connect();
 
     }
     public function getAll(){
@@ -40,7 +42,7 @@ class ItemRepository implements iDatabaseImpl
         $item->setContent($entity["content"]);
         $item->setIsDone($entity["isDone"]);
 
-        $db = MySQLDatabase::connect();
+        //$db = MySQLDatabase::connect();
 
         array_push($this->items, $item);
         echo $this->items[0]->getTitle();
@@ -49,7 +51,7 @@ class ItemRepository implements iDatabaseImpl
     public function update($entity)
     {
         foreach ( $this->items as $item) {
-            if ($item->getId == $entity['id']) {
+            if ($item->getId() == $entity['id']) {
                 $item->setTitle($entity["title"]);
                 $item->setContent($entity["content"]);
                 $item->setIsDone($entity["isDone"]);
@@ -57,12 +59,12 @@ class ItemRepository implements iDatabaseImpl
         } 
     }
 
-    public function delete($entity)
-    {   
+    public function delete($id)
+    {
         
         foreach ( $this->items as $item) {
-            if ($item->getId == $entity['id']) {
-                unset($this->items[$item->getId]);
+            if ($item->getId() == $id) {
+                unset($this->items[$item->getId()]);
             } 
         } 
 
@@ -71,7 +73,7 @@ class ItemRepository implements iDatabaseImpl
     public function getById($id)
     {
         foreach ( $this->items as $item) {
-            if ($item->getId == $id) {
+            if ($item->getId() == $id) {
                 return $item;
             } 
         } 

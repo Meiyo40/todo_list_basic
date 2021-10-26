@@ -6,7 +6,7 @@ interface iDatabaseImpl {
     public function getAll();
     public function insert($entity);
     public function update($entity);
-    public function delete($entity);
+    public function delete($id);
     public function getById($id);
 
 

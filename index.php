@@ -17,12 +17,20 @@ for($i = 0; $i < 10; $i++) {
 }
 
 //must return a list of pushed items
-//$lists = $itemRepository->getAll();
+$lists = $itemRepository->getAll();
+
+printAll($lists);
 
 //debug print all title from pushed items, if exist;
 function printAll($items) {
     foreach($items as $item) {
-        echo $item->getTitle();
+        echo $item->getTitle()."\n";
     }
 }
 
+$item = $itemRepository->getById(5);
+echo $item->getTitle()."\n";
+
+$itemRepository->delete(5);
+
+printAll($itemRepository->getAll());
