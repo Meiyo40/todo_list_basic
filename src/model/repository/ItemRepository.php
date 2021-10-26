@@ -45,7 +45,6 @@ class ItemRepository implements iDatabaseImpl
         //$db = MySQLDatabase::connect();
 
         array_push($this->items, $item);
-        echo $this->items[0]->getTitle();
     }
 
     public function update($entity)
