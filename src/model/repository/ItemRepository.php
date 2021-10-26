@@ -13,6 +13,7 @@ class ItemRepository implements iDatabaseImpl
 {
     private $itemsId = 0;
     private $items = array();
+    private $database;
     private ConfigurationDatabase $databaseConfiguration;
 
     public function __construct()
@@ -22,12 +23,17 @@ class ItemRepository implements iDatabaseImpl
             "MyDbPassword",
             'mysql:host=localhost;dbname=simple_todo_list'
         );
+        MySQLDatabase::setConfigration($this->databaseConfiguration);
+        $this->database= MySQLDatabase::connect();
+
+    }
+    public function getAll(){
+                return $this->items;
     }
 
     public function insert($entity)
     {
         $id = $this->itemsId++;
-
         $item = new Item();
         $item->setId($id);
         $item->setTitle($entity["title"]);
@@ -42,16 +48,32 @@ class ItemRepository implements iDatabaseImpl
 
     public function update($entity)
     {
-
+        foreach ( $this->items as $item) {
+            if ($item->getId == $entity['id']) {
+                $item->setTitle($entity["title"]);
+                $item->setContent($entity["content"]);
+                $item->setIsDone($entity["isDone"]);
+            } 
+        } 
     }
 
     public function delete($entity)
-    {
-        // TODO: Implement delete() method.
+    {   
+        
+        foreach ( $this->items as $item) {
+            if ($item->getId == $entity['id']) {
+                unset($this->items[$item->getId]);
+            } 
+        } 
+
     }
 
     public function getById($id)
     {
-        // TODO: Implement getById() method.
+        foreach ( $this->items as $item) {
+            if ($item->getId == $id) {
+                return $item;
+            } 
+        } 
     }
 }
