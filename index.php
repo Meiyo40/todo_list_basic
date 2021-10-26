@@ -1,36 +1,13 @@
 <?php
 
-use app\model\repository\ItemRepository;
 require_once (__DIR__."/src/model/repository/ItemRepository.php");
+require_once (__DIR__."/src/controller/ItemController.php");
 
-$itemRepository = new ItemRepository();
+$repository = new \app\model\repository\ItemRepository();
+$controller = new ItemController($repository);
 
-//simulate input
-for($i = 0; $i < 10; $i++) {
-    $itemToCreate = array(
-        "title" => "My List Title " . $i,
-        "content" => "My list content" .$i,
-        "isDone" => false
-    );
-
-    $itemRepository->insert($itemToCreate);
-}
-
-//must return a list of pushed items
-$lists = $itemRepository->getAll();
-
-printAll($lists);
-
-//debug print all title from pushed items, if exist;
-function printAll($items) {
-    foreach($items as $item) {
-        echo $item->getTitle()."\n";
-    }
-}
-
-$item = $itemRepository->getById(5);
-echo $item->getTitle()."\n";
-
-$itemRepository->delete(5);
-
-printAll($itemRepository->getAll());
+$controller->postItem();
+$controller->getAll();
+$controller->delete(2);
+echo "\n";
+$controller->getAll();
